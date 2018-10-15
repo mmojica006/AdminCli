@@ -1,0 +1,79 @@
+﻿@model Model.NotificacionViewModel
+@{
+
+    ViewBag.Title = "Crear";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">@ViewBag.Title</h4>
+</div>
+<div class="modal-body">
+    @using (Ajax.BeginForm("Create", "Notificaciones", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        Url = Url.Action("Create", "Notificaciones"),
+        UpdateTargetId = "modal-content",
+        OnSuccess = "closeModalCreate",
+        InsertionMode = InsertionMode.Replace
+    },
+            new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.TITULO, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TITULO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TITULO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CUERPO_NOTIFICACION, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CUERPO_NOTIFICACION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CUERPO_NOTIFICACION, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Id del usuario:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CuentaUsuarioId, new { htmlAttributes = new { @class = "form-control", id = "CuentaUsuarioId" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(Model => Model.CuentaUsuarioId,htmlAttributes: new { @class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(Model => Model.CuentaUsuarioId, ViewData["Clientes"] as SelectList,
+                "Seleccione", new { @class = "form-control" })
+                <span class="error">Se requiere el tipo de actividad</span>
+            </div>
+
+        </div>
+
+
+        @*<div class="form-group">
+            <label class="control-label col-md-2">Nombre de usuario:</label>
+            <div class="col-md-10">
+                @Html.TextBox("nombre", null, new { @class = "form-control" })
+            </div>
+        </div>*@
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Crear" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    }
+</div>

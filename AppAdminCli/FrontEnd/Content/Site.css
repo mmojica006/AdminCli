@@ -1,0 +1,31 @@
+﻿body {
+}
+
+#largeText {
+    overflow: hidden;
+    width: 100px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+/*table {
+    table-layout: fixed;
+}
+
+    table td {
+        word-wrap: break-word;
+        max-width: 400px;
+    }*/
+
+#Grid td {
+    white-space: inherit;
+}
+
+.text-wrap {
+    white-space: normal;
+}
+
+.width-200 {
+    width: 200px;
+}
