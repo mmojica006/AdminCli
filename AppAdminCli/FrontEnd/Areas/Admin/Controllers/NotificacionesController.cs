@@ -11,6 +11,7 @@ namespace FrontEnd.Areas.Admin.Controllers
 {
     public class NotificacionesController : Controller
     {
+        ContextoAplicacion db = new ContextoAplicacion();
         private Notificacion notificacion = new Notificacion();
         // GET: Admin/Notificaciones
         public ActionResult Index()
@@ -31,53 +32,71 @@ namespace FrontEnd.Areas.Admin.Controllers
        
         public ActionResult Create()
         {
-            //using (var ctx = new ContextoAplicacion())
-            //{
-            //    var usuarios = new SelectList(ctx.CTE_CUENTA_USUARIO.ToList());
-            //}
+
+
+            try
+            {
+
+         
             using (var ctx = new ContextoAplicacion())
             {
-                var clientes = new SelectList(ctx.CTE_CUENTA_USUARIO.ToList(),"ID_CLIENTE","NOMBRE_USUARIO");
+                var clientes = new SelectList(ctx.CTE_CUENTA_USUARIO.ToList(), "CuentaUsuarioId", "NOMBRE_USUARIO");
                 ViewData["Clientes"] = clientes;
 
             }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
 
-         
-                
 
-            return View();
+            return PartialView();
 
         }
         [HttpPost]
+    
         public ActionResult Create(NotificacionViewModel model)
         {
-            Notificacion notificacion = new Notificacion();
-            CTE_NOTIFICACION_CLIENTE notificacionCliente = new CTE_NOTIFICACION_CLIENTE();
+           
+            DateTime fecha = DateTime.Now;     
 
-            if (ModelState.IsValid)
-            {
-                notificacion.NotificacionId = model.NotificacionId;
-                notificacion.TITULO = model.TITULO;
-                notificacion.CUERPO_NOTIFICACION = model.CUERPO_NOTIFICACION;
-                notificacion.FECHA = model.FECHA;
-                
-                notificacionCliente.FECHA_LECTURA = model.FECHA;
+                if (ModelState.IsValid)
+            {           
+                  
+                        var notificacion = new Notificacion()
+                        {
+                         //notificacion.NotificacionId = model.NotificacionId;
+                        TITULO =model.TITULO,
+                        CUERPO_NOTIFICACION = model.CUERPO_NOTIFICACION,
+                        PRIORIDAD = 3,
+                        FECHA = fecha
+                        };
 
-                   
+                        var newNotification = db.CTE_NOTIFICACION.Add(notificacion);
+                             db.Entry(notificacion).State = EntityState.Added;
+
+                        var clienteNotificacion = new CTE_NOTIFICACION_CLIENTE()
+                        {
+                            CuentaUsuarioId = model.CuentaUsuarioId,
+                            NotificacionId = newNotification.NotificacionId,
+                            FECHA_LECTURA = fecha,
+                            LEIDA = false
+                        };
+
+                        var newClienteNotifica = db.CTE_NOTIFICACION_CLIENTE.Add(clienteNotificacion);
+                        db.Entry(clienteNotificacion).State = EntityState.Added;
+                        db.SaveChanges();
+                        return Json(new { success = true });               
+
+                }
+                var clientes = new SelectList(db.CTE_CUENTA_USUARIO.ToList(), "CuentaUsuarioId", "NOMBRE_USUARIO");
+                ViewData["Clientes"] = clientes;
+
+                return PartialView(model);
+        
 
 
-
-
-
-
-
-
-
-
-
-            }
-
-            return null;
 
         }
         public ActionResult LoadData()

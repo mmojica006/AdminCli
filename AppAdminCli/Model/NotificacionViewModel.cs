@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -12,15 +13,19 @@ namespace Model
     {
         [Key]
         [Column("ID_NOTIFICACION")]
+     
         public int NotificacionId { get; set; }
+        [DisplayName("Título")]
         public string TITULO { get; set; }
+        [DisplayName("Mensaje")]
         public string CUERPO_NOTIFICACION { get; set; }       
         public DateTime FECHA { get; set; }
 
         [Column("ID_CLIENTE")]
         public int CuentaUsuarioId { get; set; }
+   
         public CuentaUsuario CuentaUsuario { get; set; }
-
+      
         public string NOMBRE_USUARIO { get; set; }
 
 

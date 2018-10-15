@@ -185,6 +185,7 @@
     <Content Include="Admin\vendor\font-awesome\HELP-US-OUT.txt" />
     <Content Include="Admin\vendor\jquery\jquery.js" />
     <Content Include="Admin\vendor\jquery\jquery.min.js" />
+    <Content Include="Admin\vendor\jquery\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Admin\vendor\metisMenu\metisMenu.css" />
     <Content Include="Admin\vendor\metisMenu\metisMenu.js" />
     <Content Include="Admin\vendor\metisMenu\metisMenu.min.css" />

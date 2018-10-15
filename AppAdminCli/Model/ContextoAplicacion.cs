@@ -13,7 +13,8 @@ namespace Model
         public ContextoAplicacion():base("name=DefaultConnection")
         {
             //Habilitar las migraciones
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ContextoAplicacion, Migrations.Configuration>("DefaultConnection"));
+            // Database.SetInitializer(new MigrateDatabaseToLatestVersion<ContextoAplicacion, Migrations.Configuration>("DefaultConnection"));
+            Database.SetInitializer<ContextoAplicacion>(null);
 
         }
 

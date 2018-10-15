@@ -17,7 +17,7 @@ namespace Model
         [Column("ID_NOTIFICACION")]
         [ForeignKey("Notificacion")]
         public int NotificacionId { get; set; }
-        public  Notificacion Notificacion { get; set; }
+        public virtual Notificacion Notificacion { get; set; }
 
         [Column("ID_CLIENTE")]
         [ForeignKey("CuentaUsuario")]

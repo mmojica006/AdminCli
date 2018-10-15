@@ -74,7 +74,13 @@
 
 
     <script>
+        function closeModalCreate(data) {
 
+            if (data.success) {                
+                $('#modal-crear').modal('hide');
+                window.location.href = "/Admin/Notificaciones/index";
+            }
+        }
 
         $(document).ready(function () {
          
@@ -150,6 +156,10 @@
 
             });
         });
+
+
+      
+
     </script>
 
 

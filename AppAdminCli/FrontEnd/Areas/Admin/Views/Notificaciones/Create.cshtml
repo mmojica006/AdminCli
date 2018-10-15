@@ -2,7 +2,7 @@
 @{
 
     ViewBag.Title = "Crear";
-    Layout = null;
+    //Layout = null;
 }
 
 <div class="modal-header">
@@ -29,7 +29,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TITULO, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TITULO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.TITULO, new { htmlAttributes = new { @class = "form-control " } })
                 @Html.ValidationMessageFor(model => model.TITULO, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -37,7 +37,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CUERPO_NOTIFICACION, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CUERPO_NOTIFICACION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.CUERPO_NOTIFICACION, new  { @class = "form-control", @rows = 3  })
                 @Html.ValidationMessageFor(model => model.CUERPO_NOTIFICACION, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -53,20 +53,14 @@
         <div class="form-group">
             @Html.LabelFor(Model => Model.CuentaUsuarioId,htmlAttributes: new { @class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.DropDownListFor(Model => Model.CuentaUsuarioId, ViewData["Clientes"] as SelectList,
+                @Html.DropDownListFor(Model => Model.NOMBRE_USUARIO, ViewData["Clientes"] as SelectList,
                 "Seleccione", new { @class = "form-control" })
-                <span class="error">Se requiere el tipo de actividad</span>
+                <span class="error">Se requiere el cliente</span>
             </div>
 
         </div>
 
-
-        @*<div class="form-group">
-            <label class="control-label col-md-2">Nombre de usuario:</label>
-            <div class="col-md-10">
-                @Html.TextBox("nombre", null, new { @class = "form-control" })
-            </div>
-        </div>*@
+    
 
 
         <div class="form-group">
@@ -77,3 +71,4 @@
     </div>
     }
 </div>
+

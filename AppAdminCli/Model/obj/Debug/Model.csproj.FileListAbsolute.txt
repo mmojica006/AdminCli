@@ -10,5 +10,3 @@ C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.csproj.CopyComplete
 C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.dll
 C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.pdb
 C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.csprojAssemblyReference.cache
-C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.Migrations.sprint1.resources
-C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.csproj.GenerateResource.cache
