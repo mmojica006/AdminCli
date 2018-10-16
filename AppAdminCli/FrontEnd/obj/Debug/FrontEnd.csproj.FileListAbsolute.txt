@@ -77,3 +77,5 @@ C:\Desarrollos\AdminCli\AppAdminCli\FrontEnd\bin\Model.dll.config
 C:\Desarrollos\AdminCli\AppAdminCli\FrontEnd\bin\EntityFramework.xml
 C:\Desarrollos\AdminCli\AppAdminCli\FrontEnd\bin\EntityFramework.SqlServer.xml
 C:\Desarrollos\AdminCli\AppAdminCli\FrontEnd\bin\System.Linq.Dynamic.dll
+C:\Desarrollos\AdminCli\AppAdminCli\FrontEnd\bin\Helpers.dll
+C:\Desarrollos\AdminCli\AppAdminCli\FrontEnd\bin\Helpers.pdb

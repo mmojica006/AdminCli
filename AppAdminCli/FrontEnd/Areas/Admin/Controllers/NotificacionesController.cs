@@ -6,12 +6,15 @@ using System.Web;
 using System.Web.Mvc;
 using System.Linq.Dynamic;
 using System.Data.Entity;
+using Helpers;
 
 namespace FrontEnd.Areas.Admin.Controllers
 {
     public class NotificacionesController : Controller
     {
         ContextoAplicacion db = new ContextoAplicacion();
+        FCMPushNotification fcmPush = new FCMPushNotification();
+
         private Notificacion notificacion = new Notificacion();
         // GET: Admin/Notificaciones
         public ActionResult Index()
@@ -59,11 +62,17 @@ namespace FrontEnd.Areas.Admin.Controllers
         public ActionResult Create(NotificacionViewModel model)
         {
            
-            DateTime fecha = DateTime.Now;     
+            DateTime fecha = DateTime.Now;
+            var deviceKey = db.CTE_CUENTA_USUARIO.Where(x => x.CuentaUsuarioId == model.CuentaUsuarioId).Select(u => u.FCM_TOKEN).FirstOrDefault();
 
                 if (ModelState.IsValid)
-            {           
-                  
+            {
+                fcmPush.SendNotification(model.TITULO, model.CUERPO_NOTIFICACION, deviceKey); 
+                            
+                if (fcmPush.Successful)
+                {
+
+                
                         var notificacion = new Notificacion()
                         {
                          //notificacion.NotificacionId = model.NotificacionId;
@@ -87,9 +96,18 @@ namespace FrontEnd.Areas.Admin.Controllers
                         var newClienteNotifica = db.CTE_NOTIFICACION_CLIENTE.Add(clienteNotificacion);
                         db.Entry(clienteNotificacion).State = EntityState.Added;
                         db.SaveChanges();
-                        return Json(new { success = true });               
+                        return Json(new { success = true });
 
                 }
+                else
+                {
+                    var message = fcmPush.Error;
+
+
+                }
+
+
+            }
                 var clientes = new SelectList(db.CTE_CUENTA_USUARIO.ToList(), "CuentaUsuarioId", "NOMBRE_USUARIO");
                 ViewData["Clientes"] = clientes;
 

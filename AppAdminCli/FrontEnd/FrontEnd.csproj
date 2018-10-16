@@ -289,6 +289,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{24cff615-f278-4fd5-8ca5-1c3058e5e6ee}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{0056e959-f0e6-465c-b7cc-ebaf3415dbda}</Project>
       <Name>Model</Name>
