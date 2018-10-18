@@ -14,5 +14,21 @@ namespace FrontEnd
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
+
+        protected void Application_Error()
+        {
+            //Capturamos la excepción
+            var ultimoError = Server.GetLastError();
+            //Mandamos a mostrar el mensaje de error
+            Response.Write("<script>alert('" + ultimoError.Message.Replace("'", "") + "')</script>");
+            if (ultimoError.InnerException != null)
+            {
+                Response.Write("<script>alert('" + ultimoError.InnerException.Message.Replace("'", "") + "')</script>");
+                if (ultimoError.InnerException.InnerException != null)
+                    Response.Write("<script>alert('" + ultimoError.InnerException.InnerException.Message.Replace("'", "") + "')</script>");
+            }
+            //Limpiar los errores
+            Server.ClearError();
+        }
     }
 }

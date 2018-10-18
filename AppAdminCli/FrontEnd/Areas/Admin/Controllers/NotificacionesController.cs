@@ -7,15 +7,18 @@ using System.Web.Mvc;
 using System.Linq.Dynamic;
 using System.Data.Entity;
 using Helpers;
+using System.Text;
 
 namespace FrontEnd.Areas.Admin.Controllers
 {
     public class NotificacionesController : Controller
     {
+
         ContextoAplicacion db = new ContextoAplicacion();
         FCMPushNotification fcmPush = new FCMPushNotification();
 
         private Notificacion notificacion = new Notificacion();
+        private CTE_NOTIFICACION_GRUPO Grupo = new CTE_NOTIFICACION_GRUPO();
         // GET: Admin/Notificaciones
         public ActionResult Index()
         {
@@ -35,84 +38,75 @@ namespace FrontEnd.Areas.Admin.Controllers
        
         public ActionResult Create()
         {
-
-
             try
-            {
-
-         
+            {         
             using (var ctx = new ContextoAplicacion())
             {
                 var clientes = new SelectList(ctx.CTE_CUENTA_USUARIO.ToList(), "CuentaUsuarioId", "NOMBRE_USUARIO");
-                ViewData["Clientes"] = clientes;
+    
 
+                    ViewData["Clientes"] = clientes;
             }
             }
             catch(Exception ex)
             {
                 throw;
             }
-
-
             return PartialView();
 
-        }
-        [HttpPost]
-    
-        public ActionResult Create(NotificacionViewModel model)
+        }  
+        public ActionResult Masivo()
         {
-           
-            DateTime fecha = DateTime.Now;
-            var deviceKey = db.CTE_CUENTA_USUARIO.Where(x => x.CuentaUsuarioId == model.CuentaUsuarioId).Select(u => u.FCM_TOKEN).FirstOrDefault();
+            var listGoup = new SelectList(Grupo.Listar(), "ID", "NOMBRE");
+            ViewData["Grupos"] = listGoup;
 
-                if (ModelState.IsValid)
+            return PartialView();
+        }
+    
+        public JsonResult Guardar(NotificacionViewModel model)
+        {
+
+            var rm = new ResponseModel();
+            if (ModelState.IsValid)
             {
-                fcmPush.SendNotification(model.TITULO, model.CUERPO_NOTIFICACION, deviceKey); 
-                            
-                if (fcmPush.Successful)
+                rm = model.Guardar(model);
+
+                if (rm.response)
                 {
-
-                
-                        var notificacion = new Notificacion()
-                        {
-                         //notificacion.NotificacionId = model.NotificacionId;
-                        TITULO =model.TITULO,
-                        CUERPO_NOTIFICACION = model.CUERPO_NOTIFICACION,
-                        PRIORIDAD = 3,
-                        FECHA = fecha
-                        };
-
-                        var newNotification = db.CTE_NOTIFICACION.Add(notificacion);
-                             db.Entry(notificacion).State = EntityState.Added;
-
-                        var clienteNotificacion = new CTE_NOTIFICACION_CLIENTE()
-                        {
-                            CuentaUsuarioId = model.CuentaUsuarioId,
-                            NotificacionId = newNotification.NotificacionId,
-                            FECHA_LECTURA = fecha,
-                            LEIDA = false
-                        };
-
-                        var newClienteNotifica = db.CTE_NOTIFICACION_CLIENTE.Add(clienteNotificacion);
-                        db.Entry(clienteNotificacion).State = EntityState.Added;
-                        db.SaveChanges();
-                        return Json(new { success = true });
-
-                }
-                else
-                {
-                    var message = fcmPush.Error;
-
-
+                    rm.function= "closeModalCreate()";
+                  //  rm.href = Url.Content("~/Admin/Notificaciones/Index");
                 }
 
 
-            }
-                var clientes = new SelectList(db.CTE_CUENTA_USUARIO.ToList(), "CuentaUsuarioId", "NOMBRE_USUARIO");
-                ViewData["Clientes"] = clientes;
+            }  
 
-                return PartialView(model);
-        
+            return Json(rm);     
+
+
+
+        }
+        [ChildActionOnly]
+        public String GruposRegistrados()
+        {
+            StringBuilder Resultado = new StringBuilder();
+            var estadistica = Grupo.ListarEstadisticas();
+
+            //var data = from c in estadistica
+            //           group c.IDCLIENTE by c.ESTADO into g
+            //           select new
+            //           {
+            //               Name_Grupo = g.Key,
+            //               cuenta_Grupo = g.ToList().Count()
+            //           };
+
+            var grupos = estadistica.GroupBy(x => x.ESTADO).ToList();
+
+            Resultado.Append(string.Format("['{0}', '{1}'],", "Estado", "Cantidad"));
+            foreach (var grupo in grupos)
+                Resultado.Append(string.Format("['{0}', {1}],",
+                    grupo.FirstOrDefault().ESTADO.Trim(), grupo.Count()));
+
+             return "[" + Resultado.ToString() + "]";
 
 
 

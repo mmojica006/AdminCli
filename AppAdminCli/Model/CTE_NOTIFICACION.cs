@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
@@ -71,6 +72,10 @@ namespace Model
 
             return grid.responde();
         }
+
+      
+
+
 
 
     }

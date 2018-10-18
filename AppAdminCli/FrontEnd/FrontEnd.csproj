@@ -104,6 +104,9 @@
     <Content Include="Admin\dist\css\sb-admin-2.min.css" />
     <Content Include="Admin\dist\js\sb-admin-2.js" />
     <Content Include="Admin\dist\js\sb-admin-2.min.js" />
+    <Content Include="Admin\js\ini.js" />
+    <Content Include="Admin\js\jquery.form.js" />
+    <Content Include="Admin\js\jquery.validate.min.js" />
     <Content Include="Admin\js\sb-admin-2.js" />
     <Content Include="Admin\vendor\bootstrap-social\bootstrap-social.css" />
     <Content Include="Admin\vendor\bootstrap\css\bootstrap.css" />
@@ -195,6 +198,10 @@
     <Content Include="Admin\vendor\morrisjs\morris.min.js" />
     <Content Include="Admin\vendor\raphael\raphael.js" />
     <Content Include="Admin\vendor\raphael\raphael.min.js" />
+    <Content Include="Admin\vendor\toastr\toastr.css" />
+    <Content Include="Admin\vendor\toastr\toastr.min.css" />
+    <Content Include="Admin\vendor\toastr\toastr.min.js" />
+    <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
@@ -272,6 +279,7 @@
     <Content Include="Areas\Admin\Views\Notificaciones\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Notificaciones\Crud.cshtml" />
     <Content Include="Areas\Admin\Views\Notificaciones\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Notificaciones\Masivo.cshtml" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -2,7 +2,7 @@
 @{
 
     ViewBag.Title = "Crear";
-    //Layout = null;
+
 }
 
 <div class="modal-header">
@@ -12,15 +12,7 @@
     <h4 class="modal-title" id="myModalLabel">@ViewBag.Title</h4>
 </div>
 <div class="modal-body">
-    @using (Ajax.BeginForm("Create", "Notificaciones", null, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        Url = Url.Action("Create", "Notificaciones"),
-        UpdateTargetId = "modal-content",
-        OnSuccess = "closeModalCreate",
-        InsertionMode = InsertionMode.Replace
-    },
-            new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
+    @using (Html.BeginForm("Guardar", "Notificaciones", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
@@ -37,7 +29,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CUERPO_NOTIFICACION, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.CUERPO_NOTIFICACION, new  { @class = "form-control", @rows = 3  })
+                @Html.TextAreaFor(model => model.CUERPO_NOTIFICACION, new { @class = "form-control", @rows = 3 })
                 @Html.ValidationMessageFor(model => model.CUERPO_NOTIFICACION, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -51,22 +43,21 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(Model => Model.CuentaUsuarioId,htmlAttributes: new { @class = "control-label col-md-2"})
+            @Html.LabelFor(Model => Model.CuentaUsuarioId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(Model => Model.NOMBRE_USUARIO, ViewData["Clientes"] as SelectList,
                 "Seleccione", new { @class = "form-control" })
-                <span class="error">Se requiere el cliente</span>
+         
             </div>
 
         </div>
 
-    
 
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear" class="btn btn-default" />
-            </div>
+
+        <div class="text-right">
+            <button type="submit" data-ajax="true" class="btn btn-primary">Guardar</button>
+     
         </div>
     </div>
     }

@@ -1,4 +1,15 @@
-﻿body {
+﻿form {
+    position: relative;
+}
+
+.block-loading {
+    z-index: 9999;
+    background: url(../Content/images/ajax-loader.gif) #ddd center center no-repeat;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    opacity: 0.4;
 }
 
 #largeText {

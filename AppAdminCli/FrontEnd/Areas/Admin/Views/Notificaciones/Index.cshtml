@@ -21,6 +21,7 @@
                 <a class="btn btn-primary" data-target="#modal-crear" data-toggle="modal"
                    href="/Admin/Notificaciones/Create">Crear nueva</a>
             </p>
+    
 
             <div class="modal fade" id="modal-crear" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -74,13 +75,21 @@
 
 
     <script>
-        function closeModalCreate(data) {
-
-            if (data.success) {                
-                $('#modal-crear').modal('hide');
-                window.location.href = "/Admin/Notificaciones/index";
-            }
+        function closeModalCreate() {
+            toastr.success('Notificación Enviada');
+            //$('#modal-crear').modal('hide');
+            //window.location.href = "/Admin/Notificaciones/index";
+           
         }
+
+        //function closeModalCreate(data) {
+
+        //    if (data.success) {                
+        //        $('#modal-crear').modal('hide');
+        //        window.location.href = "/Admin/Notificaciones/index";
+        //    }
+        //}
+     
 
         $(document).ready(function () {
          

@@ -26,6 +26,7 @@ namespace Model
         public DbSet<CuentaUsuario> CTE_CUENTA_USUARIO { get; set; }
         public DbSet<Notificacion> CTE_NOTIFICACION { get; set; }
         public DbSet<CTE_NOTIFICACION_CLIENTE> CTE_NOTIFICACION_CLIENTE { get; set; }
+        public DbSet<CTE_NOTIFICACION_GRUPO> CTE_NOTIFICACION_GRUPO { get; set; }
 
     }
 }
