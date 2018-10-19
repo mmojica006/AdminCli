@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Procedure;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -25,7 +26,38 @@ namespace Model
         public DateTime FECHA_CREACION { get; set; }
         public string FCM_TOKEN { get; set; }
 
+        public List<Item> clienteAutocompletado(string busqueda)
+        {
 
+            var clientes = new List<USPCE_CTE_AUTOCOMPLETADO>();
+            try
+            {
+                using (var ctx = new ContextoAplicacion())
+                {
+                    var data  = ctx.Database.SqlQuery<USPCE_CTE_AUTOCOMPLETADO>("USPCE_CTE_AUTOCOMPLETADO").ToList();
+
+                    var consulta = from c in data
+                                   where c.NOMBRE.Contains(busqueda.ToUpper())
+                                   select new Item
+                                   {
+                                       id = c.ID_CLIENTE.ToString(),
+                                       value = c.NOMBRE
+
+
+                                   };
+
+                    return consulta.ToList();
+
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+
+        }
 
 
     }

@@ -4,8 +4,9 @@
     Layout = "~/Areas/Admin/Views/Shared/layoutDeat.cshtml";
 }
 
-@section header {
-    
+@section header{
+
+
 }
 <div id="page-wrapper">
     <div class="row">
@@ -21,7 +22,7 @@
                 <a class="btn btn-primary" data-target="#modal-crear" data-toggle="modal"
                    href="/Admin/Notificaciones/Create">Crear nueva</a>
             </p>
-    
+
 
             <div class="modal fade" id="modal-crear" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -75,24 +76,33 @@
 
 
     <script>
+
+
+
         function closeModalCreate() {
             toastr.success('Notificación Enviada');
             //$('#modal-crear').modal('hide');
             //window.location.href = "/Admin/Notificaciones/index";
-           
+
         }
+
+
 
         //function closeModalCreate(data) {
 
-        //    if (data.success) {                
+        //    if (data.success) {
         //        $('#modal-crear').modal('hide');
         //        window.location.href = "/Admin/Notificaciones/index";
         //    }
         //}
-     
+
 
         $(document).ready(function () {
-         
+
+
+
+
+
 
             $("#Grid").DataTable({
                 "language": {
@@ -135,8 +145,8 @@
                 "columnDefs":
                     [
                         {
-                            "targets": [2], 
-                            "orderable": false, 
+                            "targets": [2],
+                            "orderable": false,
                         },
                         {
                             "targets": [3],
@@ -144,7 +154,7 @@
                             "searchable": false
                         }
 
-                        
+
                     ],
 
                 "columns": [
@@ -159,15 +169,17 @@
                             return '<a class="btn btn-info" href="/Admin/Notificaciones/VerDetalle/' + full.NotificacionId + '">Ver Detalle</a>';
                         }
                     },
-                  
-               
+
+
                 ]
 
             });
         });
 
 
-      
+
+
+
 
     </script>
 

@@ -12,6 +12,10 @@
     opacity: 0.4;
 }
 
+ul.ui-autocomplete {
+    z-index: 1100;
+}
+
 #largeText {
     overflow: hidden;
     width: 100px;

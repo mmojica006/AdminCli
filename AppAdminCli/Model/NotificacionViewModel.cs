@@ -71,12 +71,7 @@ namespace Model
                     //ViewData["Clientes"] = clientes;
 
 
-
                 }
-
-
-
-
 
             }
             catch (Exception)
@@ -88,6 +83,24 @@ namespace Model
 
         }
 
+        public ResponseModel GuardarMasivo(NotificacionViewModel model)
+        {
+            var rm = new ResponseModel();
+            DateTime fecha = DateTime.Now;
+
+            try
+            {
+
+            }catch (Exception)
+            {
+
+            }
+
+            return rm;
+
+
+
+        }
     }
 
    
