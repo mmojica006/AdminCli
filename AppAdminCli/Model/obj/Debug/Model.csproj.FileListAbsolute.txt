@@ -3,10 +3,12 @@ C:\Desarrollos\AdminCli\AppAdminCli\Model\bin\Debug\Model.dll
 C:\Desarrollos\AdminCli\AppAdminCli\Model\bin\Debug\Model.pdb
 C:\Desarrollos\AdminCli\AppAdminCli\Model\bin\Debug\EntityFramework.dll
 C:\Desarrollos\AdminCli\AppAdminCli\Model\bin\Debug\EntityFramework.SqlServer.dll
+C:\Desarrollos\AdminCli\AppAdminCli\Model\bin\Debug\Helpers.dll
+C:\Desarrollos\AdminCli\AppAdminCli\Model\bin\Debug\Helpers.pdb
 C:\Desarrollos\AdminCli\AppAdminCli\Model\bin\Debug\EntityFramework.xml
 C:\Desarrollos\AdminCli\AppAdminCli\Model\bin\Debug\EntityFramework.SqlServer.xml
+C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.csprojAssemblyReference.cache
 C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
 C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.csproj.CopyComplete
 C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.dll
 C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.pdb
-C:\Desarrollos\AdminCli\AppAdminCli\Model\obj\Debug\Model.csprojAssemblyReference.cache

@@ -46,7 +46,7 @@ namespace Helpers
                 result.Successful = true;
                 result.Error = null;
                 // var value = message;
-                var requestUri = ConfigurationManager.AppSettings["fcmUrl"]; ;
+                var requestUri = ConfigurationManager.AppSettings["fcmUrl"]; 
 
                 WebRequest webRequest = WebRequest.Create(requestUri);
                 webRequest.Method = "POST";

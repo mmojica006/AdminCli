@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -74,7 +75,31 @@ namespace Model
         }
 
       
+        public ResponseModel enviarFirebase(string titulo, string mensaje, string dispositivo)
+        {
+            var rm = new ResponseModel();
+            FCMPushNotification resultFcm = new FCMPushNotification();
+            FCMPushNotification fCMPushNotification = new FCMPushNotification();
+            try
+            {
+                resultFcm = fCMPushNotification.SendNotification(titulo, mensaje, dispositivo);
 
+                if (resultFcm.Successful == true)
+                {
+                    rm.SetResponse(true, fCMPushNotification.Response);
+                }
+                else
+                {
+                    rm.SetResponse(false, fCMPushNotification.Error.ToString());
+                }
+            }
+            catch(Exception ex)
+            {
+                rm.SetResponse(false,ex.Message);
+            }
+
+            return rm;
+        }
 
 
 

@@ -65,31 +65,106 @@ namespace FrontEnd.Areas.Admin.Controllers
     
         public JsonResult Guardar(NotificacionViewModel model)
         {
-
+            Notificacion notificacion = new Notificacion();
             var rm = new ResponseModel();
             if (ModelState.IsValid)
             {
-                rm = model.Guardar(model);
-
-                if (rm.response)
+                var tokenUser = (from c in db.CTE_CUENTA_USUARIO
+                                 where c.CuentaUsuarioId == model.CuentaUsuarioId && c.BLOQUEADO == false
+                                 select c.FCM_TOKEN
+                                 ).FirstOrDefault();
+                if (tokenUser != null)
                 {
-                    rm.function= "closeModalCreate()";
-                  //  rm.href = Url.Content("~/Admin/Notificaciones/Index");
+                    rm = notificacion.enviarFirebase(model.TITULO, model.CUERPO_NOTIFICACION, tokenUser);
+                    if (rm.response)
+                    {
+                        model.Guardar(model);
+                        // rm.function= "closeModalCreate()";
+                        rm.href = Url.Content("~/Admin/Notificaciones/Index");
+                    }
+                }
+                else
+                {
+                    rm.SetResponse(false, "No se encontro el Usuario");
+                }         
+
+            }  
+            return Json(rm);     
+        }
+
+        public JsonResult guardarMasivo(NotificacionViewModel model)
+        {
+            var rm = new ResponseModel();
+            CTE_NOTIFICACION_GRUPO cTE_NOTIFICACION_GRUPO = new CTE_NOTIFICACION_GRUPO();
+          
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+          
+                    var grupo = (from c in db.CTE_NOTIFICACION_GRUPO
+                                 where c.ID == model.GRUPO
+                                 select c.NOMBRE
+                                 ).FirstOrDefault();
+
+
+                    var data = cTE_NOTIFICACION_GRUPO.ListarEstadisticas(grupo);
+
+                    if ((data != null) && (data.Count!= 0))
+                    {
+                        foreach(var obj in data)
+                        {
+                            var tokenUser = (from c in db.CTE_CUENTA_USUARIO
+                                             where c.CuentaUsuarioId == obj.IDCLIENTE && c.BLOQUEADO == false
+                                             select c.FCM_TOKEN
+                              ).FirstOrDefault();
+
+                            if (tokenUser != null)
+                            {
+                                rm = notificacion.enviarFirebase(model.TITULO, model.CUERPO_NOTIFICACION, tokenUser);
+                                if (rm.response)
+                                {
+                                    model.CuentaUsuarioId = obj.IDCLIENTE;
+                                    model.Guardar(model);                            
+                                }
+
+                            }
+                        }
+
+                        rm.SetResponse(true, "Notificaciones Enviadas!");
+
+                    }
+                    else
+                    {
+                        rm.SetResponse(false, "No existen registros para ser enviados");
+                    }
+
+
+                }
+                else
+                {
+                    rm.SetResponse(false, "El formulario esta incorrecto");
                 }
 
 
-            }  
+            }
+            catch(Exception ex)
+            {
 
-            return Json(rm);     
+                rm.SetResponse(false, ex.Message);
 
+            }
 
-
+            return Json(rm);
         }
+
         [ChildActionOnly]
         public String GruposRegistrados()
         {
             StringBuilder Resultado = new StringBuilder();
-            var estadistica = Grupo.ListarEstadisticas();
+            var estadistica = Grupo.ListarEstadisticas("TODOS");
 
             //var data = from c in estadistica
             //           group c.IDCLIENTE by c.ESTADO into g

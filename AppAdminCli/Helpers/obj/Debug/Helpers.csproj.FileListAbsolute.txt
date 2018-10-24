@@ -1,6 +1,5 @@
 C:\Desarrollos\AdminCli\AppAdminCli\Helpers\bin\Debug\Helpers.dll
 C:\Desarrollos\AdminCli\AppAdminCli\Helpers\bin\Debug\Helpers.pdb
-C:\Desarrollos\AdminCli\AppAdminCli\Helpers\obj\Debug\Helpers.csprojAssemblyReference.cache
 C:\Desarrollos\AdminCli\AppAdminCli\Helpers\obj\Debug\Helpers.csproj.CoreCompileInputs.cache
 C:\Desarrollos\AdminCli\AppAdminCli\Helpers\obj\Debug\Helpers.dll
 C:\Desarrollos\AdminCli\AppAdminCli\Helpers\obj\Debug\Helpers.pdb

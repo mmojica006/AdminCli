@@ -23,12 +23,12 @@ namespace Model
         public DateTime FECHA { get; set; }
 
         [Column("ID_CLIENTE")]
-        public int CuentaUsuarioId { get; set; }
+        public decimal CuentaUsuarioId { get; set; }
    
         public CuentaUsuario CuentaUsuario { get; set; }
       
         public string NOMBRE_USUARIO { get; set; }
-        public string GRUPO { get; set; }
+        public int GRUPO { get; set; }
         public ResponseModel Guardar(NotificacionViewModel model)
         {
             var rm = new ResponseModel();
@@ -74,7 +74,7 @@ namespace Model
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

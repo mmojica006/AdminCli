@@ -37,13 +37,13 @@ namespace Model
 
         }
 
-        public List<USPCE_CTE_GRUPOS> ListarEstadisticas()
+        public List<USPCE_CTE_GRUPOS> ListarEstadisticas(string estado = "TODOS")
         {
             try
             {
                 using (var ctx = new ContextoAplicacion())
                 {
-                    var ord =  ctx.Database.SqlQuery<USPCE_CTE_GRUPOS>("USPCE_CTE_GRUPOS @p0", "TODOS").ToList();
+                    var ord =  ctx.Database.SqlQuery<USPCE_CTE_GRUPOS>("USPCE_CTE_GRUPOS @p0", estado).ToList();
 
                     return ord;
 
