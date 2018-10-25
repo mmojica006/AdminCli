@@ -124,10 +124,12 @@ namespace FrontEnd.Areas.Admin.Controllers
                             if (tokenUser != null)
                             {
                                 rm = notificacion.enviarFirebase(model.TITULO, model.CUERPO_NOTIFICACION, tokenUser);
+                               
                                 if (rm.response)
                                 {
                                     model.CuentaUsuarioId = obj.IDCLIENTE;
-                                    model.Guardar(model);                            
+                                    model.Guardar(model);
+                                    rm.function = "cleanForm()";
                                 }
 
                             }

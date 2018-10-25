@@ -20,7 +20,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            @using (Html.BeginForm("guardarMasivo", "Notificaciones", FormMethod.Post))
+                            @using (Html.BeginForm("guardarMasivo", "Notificaciones", FormMethod.Post, new { id="frmMasivo"}))
                             {
                                 @Html.AntiForgeryToken()
 
@@ -57,7 +57,10 @@
 
 
                                     <div class="text-right">
-                                        <button type="submit" data-ajax="true" class="btn btn-primary">Enviar</button>
+                                        <button type="submit" data-ajax="true" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-send"></span>
+                                            <span class="hidden-xs">Enviar</span>
+                                        </button>
 
                                     </div>
                                 </div>
@@ -110,7 +113,15 @@
 
             chart.draw(data, options);
         }
+
+
+        function cleanForm(){
+            $("#frmMasivo")[0].reset();
+        }
     </script>
+
+
+
 }
 
 
