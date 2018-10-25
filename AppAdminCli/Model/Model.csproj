@@ -59,6 +59,7 @@
     <Compile Include="Procedure\USPCE_CTE_GRUPOS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseModel.cs" />
+    <Compile Include="Procedure\USPCE_CTE_DASHBOARD.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

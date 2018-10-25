@@ -1,0 +1,158 @@
+﻿USE CREDIEXPRESS
+
+
+IF OBJECT_ID('CTE_NOTIFICACION_GRUPO')IS NOT NULL
+	DROP TABLE CTE_NOTIFICACION_GRUPO
+GO
+
+CREATE TABLE CTE_NOTIFICACION_GRUPO (
+	ID INT IDENTITY(1,1)
+	,NOMBRE VARCHAR(50) NOT NULL	
+	,FECHA DATE
+	,ESTADO BIT DEFAULT 1
+	,OBSERVACION VARCHAR(200) CONSTRAINT pk_CTE_NOTIFICACION_GRUPO PRIMARY KEY (ID)
+	)
+
+GO
+
+IF OBJECT_ID('CTE_NOTIFICACION_GRUPO')IS NOT NULL
+	DROP TABLE CTE_NOTIFICACION_GRUPO
+GO
+
+CREATE TABLE CTE_NOTIFICACION_GRUPO (
+	ID INT IDENTITY(1,1)
+	,NOMBRE VARCHAR(50) NOT NULL	
+	,FECHA DATE
+	,ESTADO BIT DEFAULT 1
+	,OBSERVACION VARCHAR(200) CONSTRAINT pk_CTE_NOTIFICACION_GRUPO PRIMARY KEY (ID)
+	)
+
+GO
+
+insert into CTE_NOTIFICACION_GRUPO values ('AL DIA', GETDATE(),1,'Grupo con cero días mora');
+insert into CTE_NOTIFICACION_GRUPO values ('VENCIDO', GETDATE(),1,'Grupo con  menor a igual a 360 días');
+insert into CTE_NOTIFICACION_GRUPO values ('CASTIGADO', GETDATE(),1,'Grupo mayor a 360 días mora');
+insert into CTE_NOTIFICACION_GRUPO values ('VIGENTE', GETDATE(),1,'Grupo  de 1 a 90 días mora');
+
+GO
+
+IF EXISTS (
+		SELECT *
+		FROM sys.objects
+		WHERE type = 'P'
+			AND name = 'USPCE_CTE_AUTOCOMPLETADO'
+		)
+BEGIN
+	DROP PROCEDURE USPCE_CTE_AUTOCOMPLETADO
+END
+GO
+
+CREATE PROCEDURE USPCE_CTE_AUTOCOMPLETADO 
+AS
+SELECT cu.ID_CLIENTE ID_CLIENTE
+	,cl.C1000 NOMBRE
+	,cu.NOMBRE_USUARIO
+	,cu.TEMP_PASS_PART1
+	,cu.TEMP_PASS_PART2
+	,cu.CLAVE
+	,cu.BLOQUEADO
+	,cu.MOTIVO_BLOQUEO
+	,cu.FECHA_CREACION
+	,cu.FCM_TOKEN
+FROM CTE_CUENTA_USUARIO cu
+INNER JOIN CL_Clientes cl WITH (NOLOCK) ON cu.ID_CLIENTE = cl.C0902
+
+GO
+
+
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'USPCE_CTE_GRUPOS')
+BEGIN
+  DROP PROCEDURE USPCE_CTE_GRUPOS
+END
+GO
+
+CREATE PROCEDURE USPCE_CTE_GRUPOS
+(
+@pvi_estado varchar(50) = 'TODOS', 
+@pni_dias int = -1
+)
+AS
+
+;WITH dsDATA
+	AS (
+SELECT IDCLIENTE = sl.C5187
+	,SUCURSAL = suc.C6020
+	,CEDULA = isnull(d.NroDocumento, '')
+	,NOMBRE = isnull(c.C1000, '')
+	,PRESTAMO = s.cuenta
+	,MOVIL = ISNULL(dirCli.Celular, 0)
+	,DIAS_MORA = CONVERT(INT, (
+					CASE WHEN (par.FechaProceso >= C1628) AND C1604 < 0 THEN (par.FechaProceso - C1628)  ELSE 0 END
+					))
+	,CUOTA = ISNULL((
+			SELECT sum(ISNULL(C2309, 0)) + sum(ISNULL(C2310, 0)) + sum(ISNULL(C2311, 0))
+			FROM BS_PLANPAGOS pp
+			WHERE pp.TZ_LOCK = 0
+				AND pp.SALDO_JTS_OID = s.JTS_OID
+				AND pp.C2302 = s.C1628
+			GROUP BY pp.SALDO_JTS_OID
+			), 0),
+			ESTADO = (CASE WHEN C1604 = 0 THEN 'CANCELADO' 
+						WHEN (C1604 < 0 AND CONVERT(INT, (CASE WHEN (par.FechaProceso > C1628) AND C1604 < 0 THEN (par.FechaProceso - C1628)  ELSE 0 END)) = 0) THEN 'AL DIA' 
+			WHEN (C1604 < 0 AND CONVERT(INT, (CASE WHEN (par.FechaProceso > C1628) AND C1604 < 0 THEN (par.FechaProceso - C1628)  ELSE 0 END)) <= 90) THEN 'VIGENTE' 
+
+			WHEN (C1604 < 0 AND CONVERT(INT, (CASE WHEN (par.FechaProceso > C1628) AND C1604 < 0 THEN (par.FechaProceso - C1628) ELSE 0 END)) <= 360) THEN 'VENCIDO' ELSE 'CASTIGADO' END)
+			FROM saldos s WITH (NOLOCK)
+			INNER JOIN SL_SolicitudCredito sl WITH (NOLOCK) ON s.C1704 = sl.C5000	AND s.TZ_LOCK = 0
+			inner join TC_SUCURSALES (nolock) suc on s.Sucursal = suc.C6021 and suc.TZ_LOCK = 0
+				--AND sl.C5230 IN ('Q')
+			INNER JOIN CTE_CUENTA_USUARIO cc WITH(NOLOCK) ON sl.C5187 = cc.ID_CLIENTE and cc.BLOQUEADO=0 
+			INNER JOIN CL_Clientes(NOLOCK) c ON s.C1803 = c.C0902
+				AND c.TZ_LOCK = 0
+			LEFT JOIN (
+				SELECT hp.SALDOS_JTS_OID
+					,MAX(FECHAPROCESOMOV) ULTIMO_PAGO
+				FROM BS_HISTORIA_PLAZO hp WITH (NOLOCK)
+				WHERE hp.TZ_LOCK = 0
+					AND hp.TIPOMOV = 'P'
+				GROUP BY hp.SALDOS_JTS_OID
+				) AS PAGOS ON S.JTS_OID = PAGOS.SALDOS_JTS_OID
+			LEFT JOIN TC_Direcciones(NOLOCK) dirCli ON s.C1803 = dirCli.ID
+				AND dirCli.Formato = 'C'
+				AND dirCli.TipoDireccion = 'L'
+				AND dirCli.TZ_LOCK = 0
+			LEFT JOIN opciones frn WITH (NOLOCK) ON frn.numerodecampo = 5230
+				AND sl.C5230 = frn.opciondepantalla
+			LEFT JOIN (
+				SELECT IdPersona
+					,Max(NroDocumento) NroDocumento
+				FROM CL_RelPerDoc(NOLOCK) rd
+				WHERE rd.TZ_LOCK = 0
+					AND rd.Principal = 'S'
+				GROUP BY rd.IdPersona
+				) d ON c.C0902 = d.IdPersona
+			CROSS JOIN parametros par
+			WHERE (s.C9314 = 5)
+				AND (s.TZ_LOCK = 0)
+				AND s.C1604 < 0 -- Solo Creditos Activos
+		
+
+				)  select * from dsDATA 
+				where ((ESTADO= @pvi_estado) or (@pvi_estado='TODOS')) 
+				AND ((DIAS_MORA = @pni_dias) or(@pni_dias= -1 ))
+				
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'USPCE_CTE_DASHBOARD')
+BEGIN
+  DROP PROCEDURE USPCE_CTE_DASHBOARD
+END
+GO
+
+CREATE PROCEDURE USPCE_CTE_DASHBOARD
+AS
+select  Total =count(cu.ID_CLIENTE),
+		Bloqueados = sum(case when cu.BLOQUEADO=1 then 1 else 0 end),
+		Activos = sum(case when cu.BLOQUEADO=0 then 1 else 0 end ),
+		Notificaciones = ( select count(*) from CTE_NOTIFICACION   )			
+from CTE_CUENTA_USUARIO cu

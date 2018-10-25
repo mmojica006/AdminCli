@@ -1,0 +1,10 @@
+C:\Desarrollos\AdminCli\AppAdminCli\ScriptDB\bin\Debug\ScriptDB.dacpac
+C:\Desarrollos\AdminCli\AppAdminCli\ScriptDB\bin\Debug\ScriptDB.dll
+C:\Desarrollos\AdminCli\AppAdminCli\ScriptDB\bin\Debug\ScriptDB.pdb
+C:\Desarrollos\AdminCli\AppAdminCli\ScriptDB\obj\Debug\ScriptDB.sqlprojAssemblyReference.cache
+C:\Desarrollos\AdminCli\AppAdminCli\ScriptDB\obj\Debug\Model.xml
+C:\Desarrollos\AdminCli\AppAdminCli\ScriptDB\obj\Debug\refactor.xml
+C:\Desarrollos\AdminCli\AppAdminCli\ScriptDB\obj\Debug\postdeploy.sql
+C:\Desarrollos\AdminCli\AppAdminCli\ScriptDB\obj\Debug\predeploy.sql
+C:\Desarrollos\AdminCli\AppAdminCli\ScriptDB\obj\Debug\ScriptDB.dll
+C:\Desarrollos\AdminCli\AppAdminCli\ScriptDB\obj\Debug\ScriptDB.pdb

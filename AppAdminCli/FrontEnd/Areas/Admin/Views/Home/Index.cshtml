@@ -1,6 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+
+    ViewBag.Title = "Home";
     Layout = "~/Areas/Admin/Views/Shared/layoutDeat.cshtml";
 }
 
@@ -13,9 +14,10 @@
     </div>
     <!-- /.row -->
     <div class="row">
+        @Html.Partial("_Cuadros", "", new ViewDataDictionary { { "estadisticas", ViewData["estadisticas"] } })
 
-        @Html.Partial("_Cuadros")
-   
+        @*@Html.Partial("_Cuadros")*@
+
     </div>
     <!-- /.row -->
     <div class="row">
@@ -24,32 +26,14 @@
                 <div class="panel-heading">
                     <i class="fa fa-bar-chart-o fa-fw"></i> Gráficas
                     <div class="pull-right">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                Actions
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu pull-right" role="menu">
-                                <li>
-                                    <a href="#">Action</a>
-                                </li>
-                                <li>
-                                    <a href="#">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="#">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="#">Separated link</a>
-                                </li>
-                            </ul>
-                        </div>
+                       
                     </div>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div id="morris-area-chart"></div>
+
+                    <div id="mychart"></div>
                 </div>
                 <!-- /.panel-body -->
             </div>
@@ -138,7 +122,61 @@
 @section Scripts {
     <script src="@Url.Content("~/Admin/vendor/raphael/raphael.min.js")"></script>
     <script src="@Url.Content("~/Admin/vendor/morrisjs/morris.min.js")"></script>
-    <script src="@Url.Content("~/Admin/data/morris-data.js")"></script>
+    @*<script src="@Url.Content("~/Admin/data/morris-data.js")"></script>*@
+
+    <script>
+         $(document).ready(function() {
+             //Morris.Bar({
+             //    element: 'mychart',
+             //    data: [
+             //        { date: '04-02-2014', value: 3 },
+             //        { date: '04-03-2014', value: 10 },
+             //        { date: '04-04-2014', value: 5 },
+             //        { date: '04-05-2014', value: 17 },
+             //        { date: '04-06-2014', value: 6 }
+             //    ],
+             //    xkey: 'date',
+             //    ykeys: ['value'],
+             //    labels: ['Orders']
+             //});
+
+             $(function () {
+
+                 // Create a Bar Chart with Morris
+                 var chart = Morris.Bar({
+                     // ID of the element in which to draw the chart.
+                     element: 'mychart',
+                     data: [0, 0], // Set initial data (ideally you would provide an array of default data)
+                     xkey: 'key', // Set the key for X-axis
+                     ykeys: ['cnt'], // Set the key for Y-axis
+                     labels: ['Cantidad'] // Set the label when bar is rolled over
+                 });
+              
+
+
+
+
+             // Fire off an AJAX request to load the data
+             $.ajax({
+                 type: "GET",
+                 dataType: 'json',
+                 url: "/Admin/Home/GetData" // This is the URL to the API
+                 //data: { days: 7 } // Passing a parameter to the API to specify number of days
+             })
+                 .done(function (data) {
+                     // When the response to the AJAX request comes back render the chart with new data
+                     chart.setData(data);
+                 })
+                 .fail(function () {
+                     // If there is no communication between the server, show an error
+                     alert("error occured");
+                 });
+      
+             });
+
+     
+    });
+    </script>
 }
 
 

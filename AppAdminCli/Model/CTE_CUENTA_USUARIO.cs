@@ -59,6 +59,19 @@ namespace Model
 
         }
 
-
+       public List<USPCE_CTE_DASHBOARD> getDashboardUser()
+        {      
+            try
+            {
+                using (var ctx = new ContextoAplicacion())
+                {
+                    return ctx.Database.SqlQuery<USPCE_CTE_DASHBOARD>("USPCE_CTE_DASHBOARD").ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

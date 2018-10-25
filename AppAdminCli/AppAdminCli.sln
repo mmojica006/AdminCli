@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Helpers\Helpers.csproj", "{24CFF615-F278-4FD5-8CA5-1C3058E5E6EE}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ScriptDB", "ScriptDB\ScriptDB.sqlproj", "{C55DC8B8-BD59-4846-87C0-3D2C7AC7335D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{24CFF615-F278-4FD5-8CA5-1C3058E5E6EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24CFF615-F278-4FD5-8CA5-1C3058E5E6EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24CFF615-F278-4FD5-8CA5-1C3058E5E6EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C55DC8B8-BD59-4846-87C0-3D2C7AC7335D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C55DC8B8-BD59-4846-87C0-3D2C7AC7335D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C55DC8B8-BD59-4846-87C0-3D2C7AC7335D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C55DC8B8-BD59-4846-87C0-3D2C7AC7335D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C55DC8B8-BD59-4846-87C0-3D2C7AC7335D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C55DC8B8-BD59-4846-87C0-3D2C7AC7335D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
